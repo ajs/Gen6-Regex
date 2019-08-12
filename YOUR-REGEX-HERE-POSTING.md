@@ -198,14 +198,17 @@ As with most other regular expression formats, `.` matches any
 character (including newlines, use `\N` for non-newlines) and there are
 the various character class escapes:
 
-* `\s` matches whitespace
-* `\w` matches word characters (alphanumeric, underscore)
+* `\c[name]` matches a Unicode codepoint by name
+* `\d` matches a digit
+* `\h` matches horizontal whitespace
 * `\n` matches newlines (actually a "logical newline" which is
   platform-agnostic)
+* `\s` matches whitespace
 * `\t` matches a tab
-* `\h` matches horizontal whitespace
 * `\v` matches vertical whitespace
-* `\d` matches a digit
+* `\w` matches word characters (alphanumeric, underscore)
+* `\xnnnn` Matches a Unicode codepoint by 4-digit hex number
+  * `\x[n]` Matches a Unicode codepoint by hex number (any length)
 
 All of the above can also be negated by using their upper-case equivalent,
 e.g.:
