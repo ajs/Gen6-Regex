@@ -847,7 +847,7 @@ grammar JSON {
 
 ----
 
-*Copyright 2014 by Aaron Sherman*
+*Copyright 2019 by Aaron Sherman*
 
 *This document is distributed under the [Creative Commons
 Attribution-ShareAlike 4.0 International
