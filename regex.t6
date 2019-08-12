@@ -42,22 +42,27 @@ multi sub MAIN(
     Bool :$dogfood!, #= Use the parser to parse itself
     Bool :$trace,    #= Use Grammar::Tracer to debug regexes
 ) {
-    my $tmp = create_test_script(:$trace);
+    my $tmp = create_test_script(:$trace, :structure);
     $tmp.handle.put(q{
-        grammar Gen6Structure {
-            # Redefine ws to skip comments
-            token ws { <!ww> [ '#' \N* || \s ]* }
-            rule TOP {^ <statement>* $}
-            rule statement { 'grammar' <name> '{' ~ '}' <tole>* }
-            rule tole {
-                [ 'token' || 'rule'] <name>
-                    '{' ~ '}' <Gen6Regex::compound_expr>
-            }
-            token name { <ident>+ }
-        }
         ok Gen6Structure.parse(}~'q{'~get_grammar~'}'~q{),
             "Dogfood the grammar";}
     );
+    run_test_script($tmp);
+}
+
+multi sub MAIN(
+    Bool :$examples!, #= Use the parser to parse the examples
+    Bool :$trace,
+) {
+    my $tmp = create_test_script(:$trace, :structure);
+    for dir('examples').grep(/\.gen6$/) -> $file {
+        my $example = $file.slurp;
+        my $name = ~$file.basename;
+        $tmp.handle.put(qq{
+            ok Gen6Structure.parse(q{$example}),
+                "Example: $name";}
+        );
+    }
     run_test_script($tmp);
 }
 
@@ -86,14 +91,37 @@ multi sub MAIN(
 
 sub get_grammar() { $grammar_file.IO.slurp }
 
-sub create_test_script(:$trace) {
+# Create the test script tempfile and optionally:
+#
+# * :trace - enable tracing
+# * :structure - add structure grammar, Gen6Structure
+#
+sub create_test_script(:$trace, :$structure) {
     # Construct the test script
     my $tmp = Tempfile.new(:ext('p6'));
     $tmp.handle.put('use Test;');
     $tmp.handle.put('use Grammar::Tracer;') if $trace;
     $tmp.handle.print(get_grammar);
 
+    add_structure_to_test($tmp) if $structure;
+
     $tmp;
+}
+
+sub add_structure_to_test($tmp) {
+    $tmp.handle.put(q{
+        grammar Gen6Structure {
+            # Redefine ws to skip comments
+            token ws { <!ww> [ '#' \N* || \s ]* }
+            rule TOP {^ <statement>* $}
+            rule statement { 'grammar' <name> '{' ~ '}' <tole>* }
+            rule tole {
+                [ 'token' || 'rule'] <name>
+                    '{' ~ '}' <Gen6Regex::compound_expr>
+            }
+            token name { <ident>+ }
+        }
+    });
 }
 
 sub run_test_script($tmp) {
