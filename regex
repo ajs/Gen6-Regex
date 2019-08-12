@@ -11,12 +11,21 @@
 # grammar that can be read as a Perl 6 Regex as well as by any conforming
 # Gen6 Regex.
 
+# In general, $<name> and <alias=subrule> syntaxes are used where an
+# element would otherwise be ambiguous in the match result. All of these
+# could be moved to their own named sub-rules instead, but the author of
+# this reference has chosen this route for balance between comprehension
+# and clarity.
+
 grammar Gen6Regex {
     rule TOP {^ <compound_expr> $}
+
+    # The high-level structure of a regex
     rule compound_expr { <expr>* % <conjunction> }
     rule expr { <adverb>? <single_expr>+ %% <adverb>? }
     rule single_expr { <anchor> | <quantified_atom> }
     rule quantified_atom {
+      # Name the following quantified atom
       [ '$<' <identifier> '>' '=' ]?
       [
            <balanced_start=atom> '~' <balanced_end=atom> <content=quantified_atom>
@@ -24,6 +33,8 @@ grammar Gen6Regex {
         || <code_block>
       ]
     }
+
+    # Now the specifics of how individual units are matched
     rule sepspec { $<op> = ['%' '%'?] $<sep> = <quantified_atom> }
     rule quantifier {
         <simple_quant>
