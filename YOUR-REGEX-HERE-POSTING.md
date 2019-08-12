@@ -57,10 +57,10 @@ expression.
    technically they're a full grammar engine, but this can frequently
    be ignored in favor of treating them as souped-up-regexes.
 
-I'll use the term "regex" in this document to mean that 5th (and
-perhaps a future 6th) generation. This is just convention. Note
-that outside of this document, many people use "regex" to refer
-to legacy regular expression syntaxes.
+I'll use the term "regex" in this document to mean that 5th (and the 6th that
+we're trying to target) generation. This is just convention. Note that
+outside of this document, many people use "regex" to refer to legacy regular
+expression syntaxes.
 
 ## Toward a language-neutral 6th generation
 
@@ -76,6 +76,10 @@ indentation levels. Dollar signs are used for back-referencing, but
 this can be thought of as part of the regex syntax, not a generic
 variable naming convention, just as backslashed back-references were
 treated in previous implementations.
+
+*Note: Since this document was written, the term "Gen6 Regex" has been
+introduced. In this document we're refer to both Gen6 Regex and the Perl
+6 Regex implementation simply as "regex".*
 
 ## Code, not strings
 
