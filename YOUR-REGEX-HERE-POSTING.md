@@ -138,6 +138,11 @@ ratcheting. Perl 6 provides an additional keyword,
 `regex` which enables backtracking by default (in addition to turning
 off significant whitespace).
 
+Note that sub-rules can seem to violate this. A sub-rule represents its own
+state, so even though a rule doesn't backtrack, it might reference several
+sub-rules that move forward in the input independently. This is a critical
+distinction!
+
 ### Significant whitespace
 
 What is this significant whitespace thing? An example may help:
