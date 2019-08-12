@@ -1,4 +1,26 @@
-This post is intended as a proposal to
+## What is this document?
+
+To clear up some potential confusion: this document is intended as an
+overview of the specification of a new tool in the language designer's
+toolbox: a hybrid regular expression / grammar that allows users to
+match *anything* with as much ease as possible. Its goal is to remain
+a proper subset of the Perl 6 Regex specification (embedded in the
+deeply Perl6-specific
+[STD.pm6](https://github.com/perl6/std/blob/master/STD.pm6)) which is
+aimed at being embedded into other languages. You can think of it as the
+Perl 6-era version of PCRE.
+
+This document is not a standard or even a very deep specification. It
+will gloss over some major integration issues (the biggest that is
+called out below is the integration between the target language's
+Unicode model and this document), but it should provide a place to
+start. Further documents and reference implementations will move
+incrementally closer to the end-goal of a universal parsing specification
+for all languages!
+
+## Audience
+
+This document is intended as a proposal to
 those who develop, extend or maintain languages
 _other than Perl 6_ as to how they
 could adapt Perl 6 Regexes (AKA Rules) to their language. It
@@ -8,6 +30,8 @@ There is a full JSON parser at the end of this article, written
 in this specification's syntax, so if you don't know anything
 about what Perl 6 Regexes look like, that might be good
 to glance at before continuing.
+
+## History
 
 I measure regular expressions in 5 epochs or generations, with a
 zeroth generation for the purely mathematical idea of a regular
