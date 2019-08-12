@@ -170,6 +170,14 @@ style comment formats, and I will simply include:
 
 A comment is simply ignored, much like whitespace in a token.
 
+It should also be noted that this behavior is not fixed. The meaning of
+significant whitespace doesn't *happen* to coincide with the definition of
+`<ws>`, it uses that mechanism, which means that it is user re-definable.
+For example, the reference parser redefines `ws` to include comments like
+so:
+
+    token ws { <!.ww> [ '#' \N* || \s ]* }
+
 ## Literals
 
 Any "word" character which includes alphanumeric characters and underscores
