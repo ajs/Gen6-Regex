@@ -318,6 +318,20 @@ Or by name:
 
     \c[GREEK SMALL LETTER ALPHA]
 
+### A word about ranges
+
+In older regular expression implementations, ranges were specified in
+multiple ways such as in character classes, `[a-z]`, or in quantifiers,
+`a{2,5}`. Regexes unify these ranges as double-dotted values such as
+`<[a..z]>` and `a ** 2..5`.
+
+Perl 6 additionally defines a number of modifiers to ranges that control
+whether or not the end-point is included (e.g. `1 ..^ 10` meaning 1 through
+9) and a shortcut for numeric ranges that start at zero and do not include
+their endpoint (`^n`). These Perl 6 extensions to ranges should be considered
+outside of the specification, but implementations may or may not choose to
+adopt them or any other Perl 6-specific features.
+
 ## Quantifiers
 
 Everything described above is called an "atom". Groups are also atoms.
