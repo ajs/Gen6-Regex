@@ -1,0 +1,49 @@
+grammar JSON {
+    rule TOP {^ <value> $}
+
+    rule value {
+        <object> | <array> | <number> | <string> | <name>
+    }
+
+    rule name { <true> | <false> | <null> }
+
+    token true  { 'true'  }
+    token false { 'false' }
+    token null  { 'null'  }
+
+    rule object {
+        '{' ( <string> ':' <value> )* % ',' '}'
+    }
+
+    rule array {
+        '[' <value>* % ',' ']'
+    }
+
+    token number {
+        '-'?
+        [ '0' | <[1..9]> <digit>* ]
+        [ '.' <digit>+ ]?
+        [:i <[e]> <[\+\-]>? <digit>+ ]?
+    }
+
+    token digit { <[0..9]> }
+
+    token string {
+        '"' ~ '"' <stringbody>*
+    }
+
+    token stringbody {
+        # anything non-special:
+        <-[\"\\\x[0000]\x[001f]]> |
+        # or a valid escape
+        '\\' <escape>
+    }
+
+    token escape {
+        # An escaped special of some sort
+        <[\"\\\/bfnr]> |
+        # or a Unicode codepoint
+        'u' [:i <+[0..9]+[a..f]>] ** 4
+    }
+}
+
