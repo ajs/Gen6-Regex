@@ -119,7 +119,7 @@ introduce a regex. I'm going to use three basic keywords, here:
 ### Ratcheting
 
 A substantial difference between both `rule` and `token` and what most
-users of older relgular expression engines might expect is that they
+users of older regular expression engines might expect is that they
 do not backtrack by default. They merely seek the longest match. If you
 want backtracking, you can enable it with `:!ratchet` as described in
 the **Adverbs** section, below.
@@ -182,7 +182,7 @@ character or quoted:
 ## Simple non-literals
 
 As with most other regular expression formats, `.` matches any
-chararcter (including newlines, use `\N` for non-newlines) and there are
+character (including newlines, use `\N` for non-newlines) and there are
 the various character class escapes:
 
 * `\s` matches whitespace
@@ -223,7 +223,7 @@ named sub-rules:
 
 When used outside of `<+...>` character classes, these are
 sub-rules (see below), and may be preceded (within the `<...>`) by `.` in order to avoid
-capturing the matched value, like any other sub-rule. If used as a chracter
+capturing the matched value, like any other sub-rule. If used as a character
 class (e.g. within <+...>) then they can be combined with other character
 classes freely except for `same`, `wb`, `ws` and `ww` which are not
 character classes.
@@ -632,7 +632,7 @@ but it's there to consider...
 In Perl 6, grammars are tightly coupled to the concept of "actions".
 These are methods of a class associated with the grammar
 whose names are the same as the names of the sub-rules in the
-grammar. Thus, when a sub-rule match occurrs, its corresponding
+grammar. Thus, when a sub-rule match occurs, its corresponding
 action can be invoked.
 
 The most common reason to do this is to allow these actions to
@@ -666,7 +666,7 @@ outside of Perl 6 and some are interesting question marks. I'll
 try to outline the high points, here.
 
 * proto/sym - This is a bit like function overloading where
-  multiple definitions of the same name ar declared with
+  multiple definitions of the same name are declared with
   different parameters. Here's an example from the core
   NQP definition of regexes themselves:
 
@@ -690,7 +690,7 @@ try to outline the high points, here.
 * [Pod](https://docs.perl6.org/language/pod)
 * Angle-bracket quoting of lists of strings as alternation.
   e.g. `< oh happy day >` matches `oh | happy | day`.
-* Programatic range for repetition count
+* Programmatic range for repetition count
   (e.g. `[foo] ** {min_foo()..max_foo()}`)
 * Repetition quantifier variants (e.g. `[foo] ** ^10`, `[foo] ** 0^..^10`, etc)
 * Several adverbs:
@@ -707,8 +707,8 @@ try to outline the high points, here.
     * `:samemark` or `:mm`
     * `:samespace` or `:ss`
 * The ability to associate adverbs with token/rule declarations
-  (this is Perl 6 langauge syntax, really, not regex syntax).
-* Similarly, any additional syntatic elements of the declaration
+  (this is Perl 6 language syntax, really, not regex syntax).
+* Similarly, any additional syntactic elements of the declaration
   of a grammar (e.g. "is export").
 * The many other keywords and syntaxes for defining regexes:
   * `regex`
@@ -727,8 +727,8 @@ There isn't a whole lot of focus in this document on drumming up adoption.
 The presumption is that the target audience understands why a full
 grammar specification would radically improve the capabilities of any
 programming language and the only remaining questions relate to the
-difficulty of implementation and disruption to other langauge elements
-(which I _have_ attempted to address). But let's take a momemnt and
+difficulty of implementation and disruption to other language elements
+(which I _have_ attempted to address). But let's take a moment and
 consider the benefits just to make sure everyone is on the same page:
 
 #### Cleanliness
