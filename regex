@@ -11,9 +11,6 @@
 # grammar that can be read as a Perl 6 Regex as well as by any conforming
 # Gen6 Regex.
 
-# Note that this specification is currently a work in progress, and
-# does not yet fully parse itself.
-
 grammar Gen6Regex {
     rule TOP {^ <compound_expr> $}
     rule compound_expr { <expr>* % <conjunction> }
