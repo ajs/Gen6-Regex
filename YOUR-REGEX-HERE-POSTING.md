@@ -241,6 +241,8 @@ class (e.g. within <+...>) then they can be combined with other character
 classes freely except for `same`, `wb`, `ws` and `ww` which are not
 character classes.
 
+### Unicode
+
 Unicode properties can also be matched as character classes. For example:
 
     <:Script('Latin')>
@@ -252,51 +254,59 @@ Matches any character with the Unicode "Script" property, "Latin", while:
 Matches any character in the "Basic Latin" "Block". These are terms from
 the Unicode standard, not from Perl 6.
 
-The following properties are supported in both short and long versions
-as `<:property>`:
+The following list of properties are supported in both short and long versions
+as `<:property>`, but the authoritative source for these properties is
+in the
+[Unicode Character Database](https://www.unicode.org/reports/tr44/tr44-24.html).
 
-* `Letter` or `L`
+The Unicode Character Database defines properties in terms of a label (such
+as "Script") and a value (such as "Latin"). But for those
+properties defined as "binary," meaning that they have a value of "Y" or are
+simply not defined for the character, the label alone can be used:
+
 * `Cased_Letter` or `LC`
-* `Uppercase_Letter` or `Lu`
-* `Lowercase_Letter` or `Ll`
-* `Titlecase_Letter` or `Lt`
-* `Modifier_Letter` or `Lm`
-* `Other_Letter` or `Lo`
-* `Mark` or `M`
-* `Nonspacing_Mark` or `Mn`
-* `Spacing_Mark` or `Mc`
-* `Enclosing_Mark` or `Me`
-* `Number` or `N`
-* `Decimal_Number or digit` or `Nd`
-* `Letter_Number` or `Nl`
-* `Other_Number` or `No`
-* `Punctuation or punct` or `P`
-* `Connector_Punctuation` or `Pc`
-* `Dash_Punctuation` or `Pd`
-* `Open_Punctuation` or `Ps`
 * `Close_Punctuation` or `Pe`
-* `Initial_Punctuation` or `Pi`
-* `Final_Punctuation` or `Pf`
-* `Other_Punctuation` or `Po`
-* `Symbol` or `S`
-* `Math_Symbol` or `Sm`
+* `Connector_Punctuation` or `Pc`
+* `Control or cntrl` or `Cc`
 * `Currency_Symbol` or `Sc`
+* `Dash_Punctuation` or `Pd`
+* `Decimal_Number or digit` or `Nd`
+* `Enclosing_Mark` or `Me`
+* `Final_Punctuation` or `Pf`
+* `Format` or `Cf`
+* `Initial_Punctuation` or `Pi`
+* `Letter_Number` or `Nl`
+* `Letter` or `L`
+* `Line_Separator` or `Zl`
+* `Lowercase_Letter` or `Ll`
+* `Mark` or `M`
+* `Math_Symbol` or `Sm`
+* `Modifier_Letter` or `Lm`
 * `Modifier_Symbol` or `Sk`
+* `Nonspacing_Mark` or `Mn`
+* `Number` or `N`
+* `Open_Punctuation` or `Ps`
+* `Other_Letter` or `Lo`
+* `Other_Number` or `No`
+* `Other_Punctuation` or `Po`
 * `Other_Symbol` or `So`
+* `Other` or `C`
+* `Paragraph_Separator` or `Zp`
+* `Private_Use` or `Co`
+* `Punctuation or punct` or `P`
 * `Separator` or `Z`
 * `Space_Separator` or `Zs`
-* `Line_Separator` or `Zl`
-* `Paragraph_Separator` or `Zp`
-* `Other` or `C`
-* `Control or cntrl` or `Cc`
-* `Format` or `Cf`
+* `Spacing_Mark` or `Mc`
 * `Surrogate` or `Cs`
-* `Private_Use` or `Co`
+* `Symbol` or `S`
+* `Titlecase_Letter` or `Lt`
 * `Unassigned` or `Cn`
+* `Uppercase_Letter` or `Lu`
 
-Again, these are directly from the Unicode specification.
+*Again, this is a core set of supported labels, but the Unicode standard
+is the authoritative source.*
 
-So, you might match a title-case string as such:
+So you might match a title-case string as such:
 
     token titlestring { <:Titlecase_Letter> <:Lowercase_Letter>* }
 
