@@ -225,10 +225,10 @@ named sub-rules:
 * `<xdigit>` - Hexadecimal digit
 * `<alnum>` - Same as `\w`, a word character
 * `<punct>` - Punctuation characters
-* `<graph>` - `<+<alnum>+<punct>>`
+* `<graph>` - `<+alnum+punct>`
 * `<space>`- Same as `\s`, a whitespace character
 * `<cntrl>` - Control characters
-* `<print>` - `<+<graph>+<space>-<cntrl>>`
+* `<print>` - `<+graph+space-cntrl>`
 * `<blank>` - Same as `\h`, horizontal whitespace
 * `<lower>` - Lowercase
 * `<upper>` - Uppercase
@@ -327,7 +327,7 @@ Character classes can be explicit lists of characters:
 
 Or they can be constructed from other classes:
 
-    <+<alpha>-<:Uppercase_Letter>>
+    <+alpha-:Uppercase_Letter>
 
 Which is to say, "the alpha class, but excluding the upper case
 letters".
@@ -757,7 +757,7 @@ try to outline the high points, here.
   * `/.../`
   * All of the bracketing types that can accompany some of these.
 * Unicode property union/difference `<:Zp+:Zs-:Zl>`, which is redundant
-  with character class union/difference.
+  with character class union/difference (e.g. `<+:Zp+:Zs+alpha>`).
 * Unicode-equivalent operators such as `»` for `>>`
 * `<|w>` alias for `<wb>`
 
