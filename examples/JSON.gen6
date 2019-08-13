@@ -23,7 +23,7 @@ grammar JSON {
         '-'?
         [ '0' | <[1..9]> <digit>* ]
         [ '.' <digit>+ ]?
-        [:i <[e]> <[\+\-]>? <digit>+ ]?
+        [:i 'e' <[\+\-]>? <digit>+ ]?
     }
 
     token digit { <[0..9]> }
