@@ -731,6 +731,9 @@ try to outline the high points, here.
   as ["Proto regexes"](https://docs.perl6.org/syntax/Proto%20regexes.html)
   and is probably the most likely feature to be incorporated from this list
   because of the power it lends to sub-classing grammars.
+* Perl 6 allows some constructs in places that this spec does not. For
+  example, you can save an anchor to a named match variable in Perl 6, but
+  in this spec, you can only save (potentially quantified) atoms.
 * Inline comments - Perl 6 allows comments to appear
   inline by using bracketing:
 
