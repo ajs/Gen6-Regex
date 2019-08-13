@@ -67,15 +67,16 @@ grammar Gen6Regex {
     }
     rule subrule_like { [<name=identifier> '=']? <identifier> <argument>? }
     rule argument {
-      <?after ['before' | 'after'] >
-      <argument=compound_expr>
+         <?after ['before' | 'after'] >
+         <argument=compound_expr>
+      || '(' ~ ')' <quoted>
     }
     rule character_class_constructor {
         [
              <enumerated_class>
           || <prefix=class_joiner>
-            [ <uniprop> | <assertion> | <enumerated_class> ]+
-              % <sep=class_joiner>
+             [ <uniprop> | <subrule_like> | <enumerated_class> ]+
+               % <sep=class_joiner>
         ]
     }
     rule enumerated_class { '[' ~ ']' <enumerated_class_body> }
@@ -92,9 +93,9 @@ grammar Gen6Regex {
 
     token anchor {
         $<start> = '^' '^'?
-      | $<end> = '$' <!before '<' > '$'?
+      | $<end>   = '$' <!before '<' > '$'?
       | $<right> = '>>'
-      | $<left> = '<<'
+      | $<left>  = '<<'
       | <assertion_anchor> # <wb> is an assertion, but <?wb> is an anchor
     }
     token assertion_anchor_name { 'wb' | 'ww' }
@@ -117,8 +118,9 @@ grammar Gen6Regex {
       '"' ~ '"' <double_body>
       | "'" ~ "'" <single_body>
     }
+    token backslash { \\ }
     token backslash_class {
-      :ignorecase \x[5c] [<[dhnstvw]> | <parameterized_backslash_class>]
+      :ignorecase <backslash> [<[dhnstvw]> | <parameterized_backslash_class>]
     }
     token parameterized_backslash_class {
         x \[ \s* :ignorecase $<codepoint> = <[0..9 a..f]>+ \s* \]
@@ -133,17 +135,18 @@ grammar Gen6Regex {
     token enumerated_class_value {
         <backslash_class>
       | <uniprop>
-      | <enumerated_class_char> \s* [ '..' \s* <enumerated_class_char> ]?
+      | <start=enumerated_class_char>
+          [ \s* '..' \s* <end=enumerated_class_char> ]?
     }
     token enumerated_class_char {
-        \\ $<escapee> = <[ \s \x[5c] \- \. \[ \] ]>
-      | $<character> = <-[ \s \x[5c] \- \. \[ \] ]>
+        \\ $<escapee> = <-alnum>
+      | $<character> = <-[ \s \\ \- \. \[ \] ]>
     }
     token look_around { '?' | '!' }
     token no_capture { '.' }
     token uniprop { ':' $<not> = ['!'?] <uniprop_name> }
     token uniprop_name {
-      :!ratchet [
+      [
           "C"  | "Other"
         | "Cc" | "Control"
         | "Cf" | "Format"
@@ -185,10 +188,10 @@ grammar Gen6Regex {
       ]
     }
     token double_body {
-      [ <-[ " \x[5c] ]> | [ \x[5c] \. ] ]*
+      [ <-[ " \\ ]> | [ <backslash> \. ] ]*
     }
     token single_body {
-      [ <-[ ' \x[5c] ]> | [ \x[5c] \. ] ]*
+      [ <-[ ' \\ ]> | [ <backslash> \. ] ]*
     }
     # Embedded code must have balanced braces
     token code { [ '{' ~ '}' <code> || <-[\{\}]>+ ]*  }
