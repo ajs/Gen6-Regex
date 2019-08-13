@@ -26,7 +26,7 @@ our %tests =
     empty_code => '{}', print_class => '<print>',
     char_range => '<[a..z]>',
     balanced_parens => '"(" ~ ")" <expr>',
-    uniprop => '<:Letter>';
+    uniprop => '<:Letter>', escaped_class => '<[\"\\\\\s]>';
 
 subset TestName of Str where { !$_.defined or %tests{$_}:exists };
 
@@ -41,34 +41,34 @@ multi sub MAIN(
 multi sub MAIN(
     Bool :$dogfood!, #= Use the parser to parse itself
     Bool :$trace,    #= Use Grammar::Tracer to debug regexes
+    Bool :$dump,     #= Dump test script (debugging)
 ) {
     my $tmp = create_test_script(:$trace, :structure);
-    $tmp.handle.put(q{
-        ok Gen6Structure.parse(}~'q{'~get_grammar~'}'~q{),
-            "Dogfood the grammar";}
-    );
-    run_test_script($tmp);
+    $tmp.handle.put(
+        "ok Gen6Structure.parse({get_grammar.perl}),
+            'Dogfood the grammar';");
+    run_test_script($tmp, :$dump);
 }
 
 multi sub MAIN(
     Bool :$examples!, #= Use the parser to parse the examples
-    Bool :$trace,
+    Bool :$trace,      #= Use Grammar::Tracer to debug regexes
+    Bool :$dump,     #= Dump test script (debugging)
 ) {
     my $tmp = create_test_script(:$trace, :structure);
     for dir('examples').grep(/\.gen6$/) -> $file {
         my $example = $file.slurp;
         my $name = ~$file.basename;
-        $tmp.handle.put(qq{
-            ok Gen6Structure.parse(q{$example}),
-                "Example: $name";}
-        );
+        $tmp.handle.put("ok Gen6Structure.parse({$example.perl}),
+            'Example: $name';");
     }
-    run_test_script($tmp);
+    run_test_script($tmp, :$dump);
 }
 
 multi sub MAIN(
     TestName :$test,   #= Name of test to run
     Bool :$trace,      #= Use Grammar::Tracer to debug regexes
+    Bool :$dump,       #= Dump test script (debugging)
 ) {
     my $tmp = create_test_script(:$trace);
     $tmp.handle.put(q{my %example_regex := }, %tests.perl);
@@ -86,7 +86,7 @@ multi sub MAIN(
                 }
             });
     }
-    run_test_script($tmp)
+    run_test_script($tmp,:$dump)
 }
 
 sub get_grammar() { $grammar_file.IO.slurp }
@@ -124,7 +124,12 @@ sub add_structure_to_test($tmp) {
     });
 }
 
-sub run_test_script($tmp) {
+sub run_test_script($tmp, :$dump) {
     $tmp.handle.close;
-    exit(run([$perl, ~$tmp]).exitcode)
+    if $dump {
+        $tmp.IO.open.slurp.say;
+        exit(0);
+    } else {
+        exit(run([$perl, ~$tmp]).exitcode);
+    }
 }
