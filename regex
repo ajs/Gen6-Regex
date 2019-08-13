@@ -21,8 +21,13 @@ grammar Gen6Regex {
     rule TOP {^ <compound_expr> $}
 
     # The high-level structure of a regex
-    rule compound_expr { <expr>* % <conjunction> }
-    rule expr { <adverb>? <single_expr>+ %% <adverb>? }
+    rule compound_expr   { <double_or_expr>*         }
+    rule double_or_expr  { <double_and_expr>+ % '||' }
+    rule double_and_expr { <single_or_expr>+  % '&&' }
+    rule single_or_expr  { <single_and_expr>+ %  '|' }
+    rule single_and_expr { <expr>+            %  '&' }
+
+    rule expr { [ <single_expr> | <adverb> ]+ }
     rule single_expr { <anchor> | <quantified_atom> }
     rule quantified_atom {
       # Name the following quantified atom
