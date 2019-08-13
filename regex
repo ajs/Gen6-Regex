@@ -155,10 +155,10 @@ grammar Gen6Regex {
     token uniprop { ':' $<not> = ['!'?] <identifier> <uniprop_arglist>? }
     token boolean { 'True' | 'False' }
     token double_body {
-      [ <-[ " \\ ]> | [ <backslash> \. ] ]*
+      [ <-[ " \\ ]> | [ <backslash> . ] ]*
     }
     token single_body {
-      [ <-[ ' \\ ]> | [ <backslash> \. ] ]*
+      [ <-[ ' \\ ]> | [ <backslash> . ] ]*
     }
     # Embedded code must have balanced braces
     token code { [ '{' ~ '}' <code> || <-[\{\}]>+ ]*  }
