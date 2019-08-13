@@ -107,7 +107,6 @@ grammar Gen6Regex {
       | <assertion_anchor> # <wb> is an assertion, but <?wb> is an anchor
     }
     token assertion_anchor_name { 'wb' | 'ww' }
-    token conjunction { '|' '|'? | '&' '&'? }
     token simple_quant { '?' | '*' | '+' }
     token quant_control { [ '?' | '!' ] ':'? | ':' }
     token integer { <[0..9]>+ }
