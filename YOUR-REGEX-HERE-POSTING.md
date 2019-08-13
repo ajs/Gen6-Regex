@@ -720,6 +720,16 @@ try to outline the high points, here.
   ...
   ```
 
+  Which would then be used as such:
+
+  ```
+  rule foo { <metachar> }
+  ```
+
+  This is documented under the syntax section of the Perl 6 documentation
+  as ["Proto regexes"](https://docs.perl6.org/syntax/Proto%20regexes.html)
+  and is probably the most likely feature to be incorporated from this list
+  because of the power it lends to sub-classing grammars.
 * Inline comments - Perl 6 allows comments to appear
   inline by using bracketing:
 
