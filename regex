@@ -160,5 +160,14 @@ grammar Gen6Regex {
       [ <-[ ' \\ ]> | [ <backslash> . ] ]*
     }
     # Embedded code must have balanced braces
-    token code { [ '{' ~ '}' <code> || <-[\{\}]>+ ]*  }
+    token code {
+      # Ideally, this token body is replaced with an entry-point into the
+      # host language's default parser
+      [
+           '{' ~ '}' <code>
+        # We don't know what's going on, but it looks like an escaped brace
+        || <backslash> <[\{\}]>
+        || <-[\{\}]>+
+      ]*
+    }
 }
