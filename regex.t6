@@ -26,7 +26,8 @@ our %tests =
     empty_code => '{}', print_class => '<print>',
     char_range => '<[a..z]>',
     balanced_parens => '"(" ~ ")" <expr>',
-    uniprop => '<:Letter>', escaped_class => '<[\"\\\\\s]>';
+    uniprop => '<:Letter>', escaped_class => '<[\"\\\\\s]>',
+    parameterized_uniprop => '<:Script("Latin")>';
 
 subset TestName of Str where { !$_.defined or %tests{$_}:exists };
 

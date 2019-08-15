@@ -697,7 +697,8 @@ be addressed by the implementation.
 ### What was dropped
 
 If you look at
-[the full Perl 6 Regex grammar](https://github.com/perl6/nqp/blob/master/src/QRegex/P6Regex/Grammar.nqp),
+[the full Rakudo Perl 6 implementation's Regex
+grammar](https://github.com/perl6/nqp/blob/master/src/QRegex/P6Regex/Grammar.nqp),
 which is, of course,
 written in Perl 6 Regex (using a subset of the language known
 as NQP), you can see that many specifics were skipped over.
